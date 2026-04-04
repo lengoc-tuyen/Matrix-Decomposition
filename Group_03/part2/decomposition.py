@@ -14,12 +14,12 @@ def svd_decomposition(A: list[list[float]]) -> tuple[list[list[float]], list[lis
     sigma = list(map(lambda x: math.sqrt(max(0,x)), eigenvalues))
     sigma, v = sort_singular_values(sigma, v)
     l = len(sigma)
-    U = [[j /sigma[i] for j in (multiply_mat_vec(A, v[i]))] for i in range(l) if sigma[i] > 1e-9]
-    U = transpose(U)
+    U_cols = [[j / sigma[i] for j in (multiply_mat_vec(A, v[i]))] for i in range(len(sigma)) if sigma[i] > 1e-9]
+    U = transpose(U_cols)
     m = len(A)
     n = len(A[0])
-    S=sigma_mat = create_zero_matrix(m,n)
-    for i in range(len(U[0])):
+    sigma_mat = create_zero_matrix(m,n)
+    for i in range(len(U_cols)):
         if i < m and i < n:
             sigma_mat[i][i] = sigma[i]
     return U, sigma_mat, v
