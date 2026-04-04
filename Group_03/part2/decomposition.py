@@ -1,7 +1,5 @@
-from .utils import get_column, multiply_mat_vec, multiply_matrix, transpose
-from utils import get_column, multiply_mat_vec, multiply_matrix, transpose
-from .diagonalization import diagonalize, jacobi_eigen
-from diagonalization import diagonalize, jacobi_eigen
+from utils import *
+from diagonalization import *
 import math
 
 def sort_singular_values(sigma: list[float], v: list[list[float]]):
@@ -18,4 +16,10 @@ def svd_decomposition(A: list[list[float]]) -> tuple[list[list[float]], list[lis
     l = len(sigma)
     U = [[j /sigma[i] for j in (multiply_mat_vec(A, v[i]))] for i in range(l) if sigma[i] > 1e-9]
     U = transpose(U)
-    return U, sigma, v
+    m = len(A)
+    n = len(A[0])
+    S=sigma_mat = create_zero_matrix(m,n)
+    for i in range(len(U[0])):
+        if i < m and i < n:
+            sigma_mat[i][i] = sigma[i]
+    return U, sigma_mat, v
