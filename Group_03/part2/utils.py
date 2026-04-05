@@ -1,3 +1,5 @@
+from functools import reduce
+from math import sqrt
 def create_zero_matrix(m: int, n: int) -> list[list[float]]:
     A = []
     for i in range(m):
@@ -6,6 +8,15 @@ def create_zero_matrix(m: int, n: int) -> list[list[float]]:
             row.append(0)
         A.append(row)
     return A
+
+
+def create_identity_matrix(n: int) ->list[list[float]]:
+    I = [[1.0 if i == j else 0.0 for j in range(n)] for i in range(n)]
+
+
+
+def norm(x: list) -> float:
+    return sqrt(reduce(lambda a, b: a + b ** 2, x, 0))
 
 def transpose(A: list[list[float]]) -> list[list[float]]:
     if not A:
