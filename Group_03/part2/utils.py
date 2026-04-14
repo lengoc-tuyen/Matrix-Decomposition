@@ -74,3 +74,27 @@ def multiply_mat_vec(A: list[list[float]], v: list[float]) -> list[float]:
 
 def get_column(A: list[list[float]], col_index: int) -> list[float]:
     return [row[col_index] for row in A]
+
+
+def gram_schmidt(vectors: list[list[float]]) -> list[list[float]]:
+    """
+    Trực giao hóa một tập hợp các vector.
+    vectors: danh sách các vector (mỗi vector là một list[float])
+    """
+    basis = []
+    for v in vectors:
+        w = v[:]
+        for b in basis:
+            # Tính hình chiếu của v lên b: (v.b / b.b) * b
+            dot_vb = sum(v[i] * b[i] for i in range(len(v)))
+            dot_bb = sum(b[i] * b[i] for i in range(len(b)))
+            if dot_bb > 1e-15:
+                projection = [(dot_vb / dot_bb) * bi for bi in b]
+                w = [w[i] - projection[i] for i in range(len(w))]
+        
+        # Chuẩn hóa vector w về độ dài 1
+        n_w = norm(w)
+        if n_w > 1e-15:
+            basis.append([wi / n_w for wi in w])
+            
+    return basis

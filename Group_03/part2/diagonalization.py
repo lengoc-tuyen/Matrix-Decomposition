@@ -9,14 +9,19 @@ def householder_qr(A: list[list[float]]) -> tuple[list[list[float]], list[list[f
     for j in range(n):
         x = [R[i][j] for i in range(j, m)]
         normX = norm(x)
+        if normX < 1e-15:
+            continue
+
         if R[j][j] >= 0:
             s = -1.0
         else:
             s = 1.0
         u1 = R[j][j] - s * normX
+        if abs(u1) < 1e-15:
+            continue
         w = [val / u1 for val in x]
         w[0] = 1.0
-        tau = -s * u1 / norm(x)
+        tau = -s * u1 / normX
         for col in range(j, n):
             dot = sum(w[k] * R[j+k][col] for k in range(len(w))) # 
             for k in range(len(w)):
@@ -45,7 +50,7 @@ def jacobi_eigen(A: list[list[float]], tol: float = 1e-9) -> tuple[list[float], 
     """ 
     Ak = [row[:] for row in A]
     V = create_identity_matrix(len(A))
-    for i in range(100):
+    for i in range(7000):
         Q, R = householder_qr(Ak)
         Ak = multiply_matrix(R, Q)
         V = multiply_matrix(V, Q)
