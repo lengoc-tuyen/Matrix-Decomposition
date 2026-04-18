@@ -79,9 +79,9 @@ def solve_svd(A, b):
     
     p = min(m, n)
     sigmas = [sigma_mat[i][i] for i in range(p)]
-   
-    Ut_b = [sum(U[i][k] * float(b[k]) for k in range(m)) for i in range(len(U[0]))]
-   
+    
+    Ut_b = [sum(U[k][i] * float(b[k]) for k in range(m)) for i in range(len(U[0]))]
+    
     sigma_plus_Utb = []
     rank = 0
     for i in range(p):
