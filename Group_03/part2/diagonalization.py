@@ -50,7 +50,7 @@ def jacobi_eigen(A: list[list[float]], tol: float = 1e-9) -> tuple[list[float], 
     """ 
     Ak = [row[:] for row in A]
     V = create_identity_matrix(len(A))
-    for i in range(7000):
+    for i in range(32000):
         Q, R = householder_qr(Ak)
         Ak = multiply_matrix(R, Q)
         V = multiply_matrix(V, Q)
