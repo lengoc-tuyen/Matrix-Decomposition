@@ -34,7 +34,7 @@ def householder_qr(A: list[list[float]]) -> tuple[list[list[float]], list[list[f
 
     return Q, R
 
-def jacobi_eigen(A: list[list[float]], tol: float = 1e-9) -> tuple[list[float], list[list[float]]]:
+def qr_algorithm_eigen(A: list[list[float]], tol: float = 1e-9) -> tuple[list[float], list[list[float]]]:
     """
     Nhiệm vụ: Tìm Trị riêng và Vector riêng bằng thuật toán QR lặp (thay cho Jacobi).
     
@@ -72,12 +72,12 @@ def diagonalize(A: list[list[float]]) -> tuple[list[list[float]], list[list[floa
     """
     Nhiệm vụ: Phân tích A thành P * D * P_transpose (Yêu cầu 2.1).
 
-    1. Gọi jacobi_eigen(A) để lấy eigenvalues và ma trận P.
+    1. Gọi qr_algorithm_eigen(A) để lấy eigenvalues và ma trận P.
     2. Tạo ma trận đường chéo D từ danh sách eigenvalues.
     3. Tính P_transpose (vì P là ma trận trực giao nên nghịch đảo là chuyển vị).
     4. Trả về (P, D, P_transpose).
     """
-    eigenvalues, P = jacobi_eigen(A)
+    eigenvalues, P = qr_algorithm_eigen(A)
     l = len(eigenvalues)
     D = [[eigenvalues[i] if i == j else 0.0 for j in range(l)] for i in range(l)]
     P_transpose = transpose(P)

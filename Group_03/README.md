@@ -21,7 +21,7 @@
 ### Part 2 - Phân rã ma trận
 
 - `diagonalize(A)`: chéo hóa ma trận đối xứng theo dạng `P * D * P_inv`.
-- `jacobi_eigen(A)`: tìm trị riêng và vector riêng của ma trận đối xứng bằng lặp QR.
+- `qr_algorithm_eigen(A)`: tìm trị riêng và vector riêng của ma trận đối xứng bằng lặp QR.
 - `svd_decomposition(A)`: phân rã SVD `A = U * Sigma * V^T` dựa trên eigen-decomposition của `A^T A`.
 - `utils.py`: cung cấp các hàm dùng chung như `transpose`, `multiply_matrix`, `multiply_mat_vec`, `create_zero_matrix`.
 

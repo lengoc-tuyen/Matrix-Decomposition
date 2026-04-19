@@ -12,7 +12,7 @@ def svd_decomposition(A: list[list[float]]) -> tuple[list[list[float]], list[lis
     m = len(A)
     n = len(A[0])
     W = multiply_matrix(transpose(A), A)
-    eigenvalues, v = jacobi_eigen(W)
+    eigenvalues, v = qr_algorithm_eigen(W)
     
     sigma = [math.sqrt(max(0, x)) for x in eigenvalues]
     sigma, v = sort_singular_values(sigma, v)
