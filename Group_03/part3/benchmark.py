@@ -4,7 +4,7 @@ import json
 import os
 
 
-from solver import solve_gauss, solve_svd, solve_gauss_seidel
+from solvers import solve_gauss, solve_svd, solve_gauss_seidel
 
 
 def generate_random_system(n):

@@ -1,38 +1,63 @@
-from determinant import determinant
-from gaussian import gaussian_eliminate
-
-
 def inverse(A):
     """
-    Tính A^{-1} bằng cách tái sử dụng gaussian_eliminate.
-    Giải A xᵢ = eᵢ cho từng cột đơn vị eᵢ → ghép lại thành A^{-1}.
+    Tính ma trận nghịch đảo A^{-1} bằng phương pháp Gauss-Jordan
+    biến đổi đồng thời trên ma trận ghép [A | I_n].
     """
     n = len(A)
+    # Kiểm tra ma trận vuông
     for row in A:
         if len(row) != n:
             raise ValueError("Ma trận phải là ma trận vuông.")
 
-    # Kiểm tra khả nghịch trước qua định thức
-    det_val = determinant(A)
-    if abs(det_val) < 1e-10:
-        return "Ma trận KHÔNG KHẢ NGHỊCH (det(A) = 0)."
-
-
-    A_inv_cols = []
-
-
+    # 1. Tạo ma trận ghép [A | I_n]
+    Ag = []
     for i in range(n):
-        # Cột đơn vị thứ i: e_i = [0,...,1,...,0]
-        e_i = [1.0 if j == i else 0.0 for j in range(n)]
+        row = list(A[i]) # Copy dòng của A
+        # Thêm ma trận đơn vị
+        for j in range(n):
+            if i == j:
+                row.append(1.0)
+            else:
+                row.append(0.0)
+        Ag.append(row)
 
+    # 2. Khử Gauss để đưa phần bên trái về dạng tam giác trên
+    for i in range(n):
+        # Chọn pivot cục bộ (partial pivoting)
+        max_idx = i
+        for k in range(i + 1, n):
+            if abs(Ag[k][i]) > abs(Ag[max_idx][i]):
+                max_idx = k
+        
+        # Nếu pivot = 0 -> ma trận suy biến
+        if abs(Ag[max_idx][i]) < 1e-10:
+            return "Ma trận KHÔNG KHẢ NGHỊCH (det(A) = 0)."
+            
+        # Hoán vị dòng
+        if max_idx != i:
+            Ag[i], Ag[max_idx] = Ag[max_idx], Ag[i]
+            
+        # Chia dòng i cho pivot
+        pivot = Ag[i][i]
+        for j in range(i, 2*n):
+            Ag[i][j] /= pivot
+            
+        # Khử các dòng dưới
+        for k in range(i + 1, n):
+            factor = Ag[k][i]
+            for j in range(i, 2*n):
+                Ag[k][j] -= factor * Ag[i][j]
 
-        # Tái sử dụng gaussian_eliminate để giải A x_i = e_i
-        _, x_i, _ = gaussian_eliminate(A, e_i)
+    # 3. Khử Gauss-Jordan để đưa phần bên trái về ma trận đơn vị I_n (Thế ngược)
+    for i in range(n - 1, -1, -1):
+        for k in range(i - 1, -1, -1):
+            factor = Ag[k][i]
+            for j in range(i, 2*n):
+                Ag[k][j] -= factor * Ag[i][j]
 
-
-        A_inv_cols.append(x_i)
-
-
-    # Chuyển từ danh sách n cột → danh sách n dòng
-    A_inv = [[A_inv_cols[j][i] for j in range(n)] for i in range(n)]
+    # 4. Trích xuất ma trận A^{-1} từ nửa phải của [I_n | A^{-1}]
+    A_inv = []
+    for i in range(n):
+        A_inv.append(Ag[i][n:])
+        
     return A_inv
