@@ -67,6 +67,12 @@ pip install numpy
 
 ## Cách chạy
 
+Cài đặt các thư viện yêu cầu (cần môi trường ảo nếu hệ thống chặn cài đặt global):
+```bash
+pip install -r requirements.txt
+```
+
+
 Chạy toàn bộ chương trình kiểm thử từ thư mục `Group_03`:
 
 ```bash
@@ -78,6 +84,11 @@ Nếu cần chỉ định Python cài qua Homebrew:
 ```bash
 /opt/homebrew/bin/python3 main.py
 ```
+Để render video hoạt cảnh Manim (Phần 2), chuyển vào thư mục `Group_03` và chạy:
+```bash
+manim -pql part2/manim_scene.py MasterScene
+```
+*Lưu ý: Mặc định tùy chọn `-pql` sẽ kết xuất với chất lượng thấp, bạn có thể chạy `-pqh` để ra chất lượng full hd. Đoạn video render sử dụng ảnh nén, bạn cần chuẩn bị một ảnh tên là `image.jpg` và đặt ở thư mục hiện tại để lệnh không bị lỗi*.
 
 ## Nội dung kiểm thử của `main.py`
 
